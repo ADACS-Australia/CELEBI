@@ -51,30 +51,50 @@ RUN python get-pip.py
 # Using pip to install ipp
 # Refer https://www.intel.com/content/www/us/en/docs/oneapi/installation-guide-linux/2023-0/pip.html
 RUN pip install ipp-static
+
 #Installing gsl
 RUN apt install -y pkg-config
 RUN apt install -y libgsl-dev
 
+# Installing Python packages
 COPY requirements.txt /tmp/
 RUN cd /tmp && \
     pip install -r requirements.txt
 
+# Installing DiFX
 # For DiFX both source files and binaries are needed
+# Moving DiFX installation files downloaded using svn co 
 COPY virtualtrunk /opt/virtualtrunk/
 
+# Installating DiFX dependencies
 RUN apt install -y bison && \
     apt install -y flex && \
     apt install -y doxygen
-RUN chmod -y 770 /opt/virtualtrunk/setup.bash &&
-    chmod -y 770 /opt/virtualtrunk/install-difx
+
+RUN chmod +x /opt/virtualtrunk/setup.bash && \
+    chmod +x /opt/virtualtrunk/install-difx
+
+# You can only source if the shell is /bin/bash
 SHELL ["/bin/bash", "-c"]
-RUN "source /opt/virtualtrunk/setup.bash" && \
+
+# Compiling DiFX
+RUN source /opt/virtualtrunk/setup.bash && \
     /opt/virtualtrunk/install-difx
 SHELL ["/bin/sh", "-c"]
 
     
-    
+# Installing CRAFTConverter    
+# Coping CRAFTConverter files
+COPY CRAFTConverter /opt/CRAFTConverter/
+RUN cd /opt/CRAFTConverter/ && \
+    make
 
+# # Installing SCHED
+# # Compiled binaries available and environmental 
+# # variables will be adjusted
+
+COPY sched_11.5 /opt/sched_11.5/
+RUN apt install -y pgplot5
 # IPP files are found here /usr/local/lib
 # Make port 80 available to the world outside this container
 # EXPOSE 80
