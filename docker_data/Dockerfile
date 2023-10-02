@@ -95,9 +95,30 @@ RUN cd /opt/CRAFTConverter/ && \
 
 COPY sched_11.5 /opt/sched_11.5/
 RUN apt install -y pgplot5
-# IPP files are found here /usr/local/lib
+RUN pip install ipython==7.20.0
+COPY ASKAP/ /opt/virtualtrunk/sites/ASKAP/
+
+# DIFX_EOPS and DIFX_UTILS will be hardcoded into the container for now
+# These variables can be changed by pushing the files as input to relevant
+# nextflow processes or may be use containerOptions
+# export DIFX_EOPS=/fred/oz002/askap/craft/craco/processing/.eops
+# export DIFX_UT1LS=/fred/oz002/askap/craft/craco/processing/.ut1ls
+
+COPY .eops /opt/
+COPY .ut1ls /opt/
+COPY analysis_scripts/ /opt/analysis_scripts/
+COPY astroquery/ /opt/astroquery/
+RUN pip install requests
+RUN pip install urllib3
+COPY craft-python/ /opt/craft-python/
+RUN pip install numba
+RUN pip install joblib
+COPY craft/ /opt/source/craft/
+
+
+
+
 # Make port 80 available to the world outside this container
 # EXPOSE 80
 
-# Run any command you like when the container launches
 #CMD ["bash"]
