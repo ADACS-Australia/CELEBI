@@ -115,7 +115,53 @@ RUN pip install numba
 RUN pip install joblib
 COPY craft/ /opt/source/craft/
 
+#AIPS dependencies
+RUN apt-get install -y rsync
+RUN apt-get install -y cvs
+RUN apt-get install -y libtinfo5
+# The AIPS image
+# AIPS doesn't like running as root
+# Create a new group for AIPS users
+RUN groupadd aipsgroup
 
+# Create the 'aips' user and add it to the 'aipsgroup' group
+RUN useradd -md /usr/local/aips -s /bin/bash -G aipsgroup aips
+
+# Set the password for the 'aips' user
+RUN echo "aips:aips" | chpasswd
+
+
+# Set the working directory and switch to 'aips' user
+WORKDIR /usr/local/aips
+USER aips:aipsgroup
+
+
+
+# # Install AIPS 31DEC20
+# #ADD	31DEC22 .AIPSRC
+# RUN wget ftp://ftp.aoc.nrao.edu/pub/software/aips/31DEC22/install.pl \
+#   && chmod 755 install.pl \
+#   && rsync rsync://ftp.aoc.nrao.edu/ \
+#   && ./install.pl -n
+
+
+
+# Setup AIPS
+USER root
+# RUN	printf '\n\
+# sssin           5000/tcp        SSSIN      # AIPS TV server\n\
+# ssslock         5002/tcp        SSSLOCK    # AIPS TV Lock\n\
+# msgserv         5008/tcp        MSGSERV    # AIPS Message Server\n\
+# tekserv         5009/tcp        TEKSERV    # AIPS TekServer\n\
+# aipsmt0         5010/tcp        AIPSMT0    # AIPS remote FITS disk access\n\
+# aipsmt1         5011/tcp        AIPSMT1    # AIPS remote tape 1\n\
+# aipsmt2         5012/tcp        AIPSMT2    # AIPS remote tape 2\n\
+# ' >> /root/services &&\
+# 	printf '\n# all users should source AIPS\n\
+# if [ -f /usr/local/aips/LOGIN.SH ]; then\n\
+#   source /usr/local/aips/LOGIN.SH\n\
+# fi\n\
+# ' >> /etc/bash.bashrc
 
 
 # Make port 80 available to the world outside this container
