@@ -23,35 +23,10 @@ RUN apt-get remove -y gcc && \
 RUN apt-get update
 RUN apt install -y libopenmpi-dev
 
-# # Copy the Intel IPP offline installer into the container
-# # Replace "your-ipp-installer-file" with the name of your IPP installer file
-#COPY ipp.sh /tmp/
-
-# # Run the Intel IPP installer
-# RUN ["/bin/bash", "-c", "cd /tmp && chmod +x ipp.sh && ./ipp.sh &&"]
-
-# Installation of python and its libraries
-# This step is brought forward as DiFX needs python. 
-RUN apt install -y software-properties-common
-RUN add-apt-repository -y ppa:deadsnakes/ppa
-RUN rm -rf /usr/bin/python3 
-RUN apt -y install build-essential
-RUN apt install -y python3.7-dev
-#Make python and python3 point to python3.7
-RUN ln -sf /usr/bin/python3.7 /usr/bin/python
-RUN ln -sf /usr/bin/python3.7 /usr/bin/python3
-
-# Installing pip using python3.7 and get-pip.py
-#RUN mkdir /tmp
-RUN cd /tmp
-RUN wget https://bootstrap.pypa.io/get-pip.py
-RUN apt-get -y install python3.7-distutils
-RUN python get-pip.py
-
-# Using pip to install ipp
-# Refer https://www.intel.com/content/www/us/en/docs/oneapi/installation-guide-linux/2023-0/pip.html
-RUN pip install ipp-static
-
+# Python 3.7 install
+RUN apt install -y software-properties-common &&\
+    apt install -y pip &&\
+    pip install --timeout=300 ipp-static
 #Installing gsl
 RUN apt install -y pkg-config
 RUN apt install -y libgsl-dev
@@ -70,6 +45,9 @@ COPY virtualtrunk /opt/virtualtrunk/
 RUN apt install -y bison && \
     apt install -y flex && \
     apt install -y doxygen
+
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
+
 
 RUN chmod +x /opt/virtualtrunk/setup.bash && \
     chmod +x /opt/virtualtrunk/install-difx
@@ -95,7 +73,8 @@ RUN cd /opt/CRAFTConverter/ && \
 
 COPY sched_11.5 /opt/sched_11.5/
 RUN apt install -y pgplot5
-RUN pip install ipython==7.20.0
+#Installing ipython using requirements.txt
+#RUN pip install ipython==7.20.0
 COPY ASKAP/ /opt/virtualtrunk/sites/ASKAP/
 
 # DIFX_EOPS and DIFX_UTILS will be hardcoded into the container for now
@@ -133,38 +112,15 @@ RUN echo "aips:aips" | chpasswd
 
 # Set the working directory and switch to 'aips' user
 WORKDIR /usr/local/aips
+RUN add-apt-repository ppa:kettenis-w/parseltongue &&\
+    apt-get update && \
+    apt-get install -y python3-parseltongue
+
 USER aips:aipsgroup
+ADD .AIPSRC .AIPSRC
 
+RUN wget ftp://ftp.aoc.nrao.edu/pub/software/aips/31DEC23/install.pl \
+  && chmod 755 install.pl \
+  && ./install.pl -n
 
-
-# # Install AIPS 31DEC20
-# #ADD	31DEC22 .AIPSRC
-# RUN wget ftp://ftp.aoc.nrao.edu/pub/software/aips/31DEC22/install.pl \
-#   && chmod 755 install.pl \
-#   && rsync rsync://ftp.aoc.nrao.edu/ \
-#   && ./install.pl -n
-
-
-
-# Setup AIPS
 USER root
-# RUN	printf '\n\
-# sssin           5000/tcp        SSSIN      # AIPS TV server\n\
-# ssslock         5002/tcp        SSSLOCK    # AIPS TV Lock\n\
-# msgserv         5008/tcp        MSGSERV    # AIPS Message Server\n\
-# tekserv         5009/tcp        TEKSERV    # AIPS TekServer\n\
-# aipsmt0         5010/tcp        AIPSMT0    # AIPS remote FITS disk access\n\
-# aipsmt1         5011/tcp        AIPSMT1    # AIPS remote tape 1\n\
-# aipsmt2         5012/tcp        AIPSMT2    # AIPS remote tape 2\n\
-# ' >> /root/services &&\
-# 	printf '\n# all users should source AIPS\n\
-# if [ -f /usr/local/aips/LOGIN.SH ]; then\n\
-#   source /usr/local/aips/LOGIN.SH\n\
-# fi\n\
-# ' >> /etc/bash.bashrc
-
-
-# Make port 80 available to the world outside this container
-# EXPOSE 80
-
-#CMD ["bash"]
