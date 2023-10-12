@@ -124,3 +124,40 @@ RUN wget ftp://ftp.aoc.nrao.edu/pub/software/aips/31DEC23/install.pl \
   && ./install.pl -n
 
 USER root
+RUN apt-get update &&\
+    apt install -y vim
+
+# Configuring AIPS using the expect script which provides inputs for the
+# prompts from AIPS commands. 
+COPY services /root/services
+COPY script.exp /usr/local/aips/
+
+RUN apt install -y expect
+RUN cd /usr/local/aips/ && \
+    chmod +x script.exp && \
+    ./script.exp &&\
+    chmod +x LOGIN.SH
+COPY setup_proc_container /opt/
+COPY sourcing.sh /opt/
+RUN chmod +x /opt/sourcing.sh && \
+    chmod +x /opt/setup_proc_container 
+RUN chmod -R 777  /usr/local/aips/*
+# ENTRYPOINT ["/opt/sourcing.sh"]
+#RUN useradd -md /usr/local/aips -s /bin/bash -G aipsgroup vkompell
+
+# Compiling Sched_11.5
+
+RUN apt-get install -y libpng-dev &&\
+    apt-get install -y libx11-dev
+
+COPY Makefile /opt/sched_11.5/src/
+
+RUN export PGPLOT_DIR=/usr/lib/pgplot5 &&\
+    cd /opt/sched_11.5/src/ &&\
+    make
+    
+
+
+    
+    
+
