@@ -154,7 +154,8 @@ COPY Makefile /opt/sched_11.5/src/
 
 RUN export PGPLOT_DIR=/usr/lib/pgplot5 &&\
     cd /opt/sched_11.5/src/ &&\
-    make
+    make clean &&\
+    make 
     
 
 

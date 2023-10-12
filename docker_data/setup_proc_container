@@ -8,7 +8,7 @@ path_remove ()  { _pathvar=$1 ; export $1=`echo -n ${!_pathvar} | awk -v RS=: -v
 . /opt/virtualtrunk/setup.bash
 export SCHED=/opt/sched_11.5
 export PGPLOT_FONT=/usr/lib/pgplot5/grfont.dat
-
+export PGPLOT_DIR=/usr/lib/pgplot5
 
 export DIFX_EOPS=/opt/.eops
 export DIFX_UT1LS=/opt/.ut1ls
@@ -18,14 +18,14 @@ AppendPath PATH /opt/virtualtrunk/sites/ASKAP/
 AppendPath PATH /opt/virtualtrunk/utilities/trunk/vis2screen/
 AppendPath PATH /opt/CRAFTConverter
 #AppendPath PATH /fred/oz002/askap/craft/craco/craft/parseltongue/
-AppendPath PATH /opt/sched_11.5/bin/sched_11.5/bin/linux64gf/
+AppendPath PATH /opt/sched_11.5/bin/linux64gf/
 AppendPath PYTHONPATH /opt/analysis_scripts/
 AppendPath PYTHONPATH /opt/astroquery/
 #AppendPath PYTHONPATH /fred/oz002/askap/craft/craco/requests/
 #AppendPath PYTHONPATH /fred/oz002/askap/craft/craco/urllib3/src
 #AppendPath PYTHONPATH /fred/oz002/askap/craft/craco/python//lib/python3.7/site-packages/
 #AppendPath PYTHONPATH /fred/oz002/askap/craft/craco/python/
-AppendPath PYTHONPATH /fred/oz002/askap/craft/craco/craft-python/
+AppendPath PYTHONPATH /opt/craft-python/
 #AppendPath PYTHONPATH /fred/oz002/askap/craft/craco/joblib/
 #AppendPath PYTHONPATH /fred/oz002/askap/craft/craco/numba/
 #AppendPath PYTHONPATH /fred/oz002/askap/craft/craco/rich/

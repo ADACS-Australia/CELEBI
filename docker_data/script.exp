@@ -34,13 +34,13 @@ send "35\r"
 expect "Computer speed rating (AIPSmarks) 500.0"
 send "30\r"
 expect "Enter number to change or  0 = Print, -1 = Return"
-send "-1"
+send -- "-1\r"
 expect "Password:"
 send "AMANAGER\r"
 expect "Enter:  1=Start Over, 2=Change parameters, 3=Change DEVTAB, 4=Quit"
 send "4\r"
-expect "*:~"
+#expect "*:~"
 
 # End the script
-send "exit\r"
+#send "exit\r"
 expect eof
