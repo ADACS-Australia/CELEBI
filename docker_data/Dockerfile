@@ -156,6 +156,22 @@ RUN export PGPLOT_DIR=/usr/lib/pgplot5 &&\
     cd /opt/sched_11.5/src/ &&\
     make clean &&\
     make 
+RUN chmod -R 777 /opt/sched_11.5
+#Installing casa using pip
+RUN pip install \
+    casatools==6.6.0.20 \
+    casatasks==6.6.0.20 \
+    casaplotms==2.2.4 \
+    casaviewer==1.9.1 \
+    casampi==0.5.4 \
+    casashell==6.6.0.20 \
+    casadata==2023.9.18 \
+    casaplotserver==1.7.1 \
+    almatasks==1.7.1 \
+    casatestutils==6.6.0.20 \
+    casatablebrowser==0.0.33 \
+    casalogger==1.0.17 \
+    casafeather==0.0.20
     
 
 
