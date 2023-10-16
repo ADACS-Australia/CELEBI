@@ -172,9 +172,4 @@ RUN pip install \
     casatablebrowser==0.0.33 \
     casalogger==1.0.17 \
     casafeather==0.0.20
-    
-
-
-    
-    
 
