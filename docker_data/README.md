@@ -21,7 +21,7 @@ Two singularity/docker container images were built as a part of this work. The f
 
 ## Invoking the containers
 
-The containers can be run in different ways as detailed below (after you have run `module load apptainer`) : 
+The containers can be run in different ways as detailed below (after you have run `module load apptainer`) :
 
 1. Using Singularity shell: `singularity (or apptainer) shell image_name.sif` runs shell within the container and allows you to interact with the contents of the container.
    
@@ -30,6 +30,8 @@ The containers can be run in different ways as detailed below (after you have ru
 3. Using a sandbox: A sandbox can be created using `singularity build --sandbox sandbox_name/ image.sif`. The sandbox can then be used as described above, however, you can use --writable flag when running the sandbox, and whatever changes you make in the sandbox remain. For example, if you open the sandbox using `singularity shell sandbox_name`, and create a directory inside it, exit it, and then open it again using `singularity shell ..`, you should be able to see the directory created. Additionally, once you make the necessary changes you can build a container image(*.sif) using the sandbox by running `singularity build my_image.sif my_sandbox/`.
 
 A sandbox is necessary to run AIPS as AIPS requires rw file system. Any code that fails to run with a standard image *.sif due to filesystem permissions should be run in sandbox with `--writable` flag.
+
+**Note: Prior to running any code on the container it is a good idea (and is essential in most cases) to `source /opt/setup_proc_container`. This file is located within the container and can be edited while using the container in sandbox mode such that the changes are persistent**
 
 ## Examples
 
