@@ -11,6 +11,7 @@ CELEBI workflow makes use of multiple packages and scripts that enable necessary
     - [Running CASA in the Container](#running-casa-in-the-container)
   - [Known Issues](#known-issues)
   - [What's in this Folder](#whats-in-this-folder)
+  - [Further help](#further-help)
 
 
 
@@ -61,3 +62,11 @@ The folder contains multiple files that are used in the process of building the 
 6. `setup_proc_container`: This file helps in setting up the environment variables and sources `LOGIN.SH` (for AIPS) and `setup.bash` (for DiFx). 
 
 The files, `.AIPSRC`, `Makefile`, `requirements.txt`, `script.exp`, `setup_proc_container`, were copied onto the container during the container building process. These files are necessary if one attempts to rebuild the containers. The locations to which these files are copied can be found against the `COPY` command in the `Dockerfile`. 
+
+## Further help
+
+https://www.nextflow.io/docs/latest/singularity.html
+
+https://carpentries-incubator.github.io/Pipeline_Training_with_Nextflow/02-Intro_to_Nextflow/index.html
+
+
