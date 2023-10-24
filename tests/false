@@ -1,0 +1,9 @@
+2023-09-22 12:53:03 :: 28735 :: CASAStart :: Starting CASA at: 2023-09-22 12:53:03.570074 Version 5.7.0-134   Platform: Linux-4.18.0-477.21.1.el8_8.x86_64-x86_64-with-centos-7.9.2009-Core Variant: 
+2023-09-22 12:53:03 :: 28735 :: imstat :: Task imstat complete. Start time: 2023-09-22 12:53:03.690146 End time: 2023-09-22 12:53:03.720955
+2023-09-22 12:53:03 :: 28735 :: CASAStop :: Stopping CASA at: 2023-09-22 12:53:03.721899 Version 5.7.0-134   Platform: Linux-4.18.0-477.21.1.el8_8.x86_64-x86_64-with-centos-7.9.2009-Core Start time: 2023-09-22 12:53:03.570074 Variant: 
+2023-09-22 12:59:36 :: 6631 :: CASAStart :: Starting CASA at: 2023-09-22 12:59:36.796606 Version 5.7.0-134   Platform: Linux-4.18.0-477.21.1.el8_8.x86_64-x86_64-with-centos-7.9.2009-Core Variant: 
+2023-09-22 12:59:37 :: 6631 :: imstat :: Task imstat complete. Start time: 2023-09-22 12:59:36.913152 End time: 2023-09-22 12:59:37.015457
+2023-09-22 12:59:37 :: 6631 :: CASAStop :: Stopping CASA at: 2023-09-22 12:59:37.016451 Version 5.7.0-134   Platform: Linux-4.18.0-477.21.1.el8_8.x86_64-x86_64-with-centos-7.9.2009-Core Start time: 2023-09-22 12:59:36.796606 Variant: 
+2023-09-22 13:00:50 :: 8051 :: CASAStart :: Starting CASA at: 2023-09-22 13:00:50.471396 Version 5.7.0-134   Platform: Linux-4.18.0-477.21.1.el8_8.x86_64-x86_64-with-centos-7.9.2009-Core Variant: 
+2023-09-22 13:00:50 :: 8051 :: imstat :: Task imstat complete. Start time: 2023-09-22 13:00:50.583839 End time: 2023-09-22 13:00:50.612115
+2023-09-22 13:00:50 :: 8051 :: CASAStop :: Stopping CASA at: 2023-09-22 13:00:50.613090 Version 5.7.0-134   Platform: Linux-4.18.0-477.21.1.el8_8.x86_64-x86_64-with-centos-7.9.2009-Core Start time: 2023-09-22 13:00:50.471396 Variant: 

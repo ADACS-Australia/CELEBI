@@ -1,0 +1,7 @@
+sssin           5000/tcp        SSSIN      # AIPS TV server
+ssslock         5002/tcp        SSSLOCK    # AIPS TV Lock
+msgserv         5008/tcp        MSGSERV    # AIPS Message Server
+tekserv         5009/tcp        TEKSERV    # AIPS TekServer
+aipsmt0         5010/tcp        AIPSMT0    # AIPS remote FITS disk access
+aipsmt1         5011/tcp        AIPSMT1    # AIPS remote tape 1
+aipsmt2         5012/tcp        AIPSMT2    # AIPS remote tape 2

@@ -1,0 +1,10 @@
+rm -f test.imstats
+rm -f casa*log
+python casaimstat.py
+DIFF=$(diff test.imstats reference.imstats) 
+if [ "$DIFF" ] 
+then
+    echo "CASA FAIL"
+else
+    echo "CASA PASS"
+fi

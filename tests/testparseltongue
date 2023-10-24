@@ -1,0 +1,10 @@
+rm -f test.fitstats
+rm -f jmfitout.txt
+./jmfitfromfile.py test.fits test.fitstats 20 > jmfitout.txt
+DIFF=$(diff test.fitstats reference.fitstats) 
+if [ "$DIFF" ] || [ ! -f test.fitstats ] 
+then
+    echo "AIPS FAIL"
+else
+    echo "AIPS PASS"
+fi

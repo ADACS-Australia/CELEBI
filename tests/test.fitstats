@@ -1,0 +1,13 @@
+Pulsar XXXXXXXX: MJD 59227:
+Centre RA:            16:00:01.032
+Centre Dec:           -00:37:24.32
+Flux (mJy):           1077.8000000000002
+S/N:                  121.64785553047408
+RA offset (mas):      -14.999112165046244
+Dec offset (mas):     20.000000000131024
+Actual RA:            16:00:01.031
+Actual Dec:           -00:37:24.34
+Fit:                  13607.0x19507.0 at 124.550 degrees; beam 13340.0x18920.0 at -57.3 degrees
+Est. RA error (mas):  59.996448300100965
+Est. RA error (hms):  4.0
+Est. Dec error (mas): 60.0

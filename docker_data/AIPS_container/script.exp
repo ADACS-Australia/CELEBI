@@ -1,0 +1,46 @@
+#!/usr/bin/expect
+
+# Start by sourcing the login script
+spawn bash -i
+send "source ./LOGIN.SH\r"
+expect "*:~"
+
+# Change to the specified directory
+send "\$CDTST\r"
+expect "*:~"
+
+# Run FILAIP and respond to the prompts
+send "RUN FILAIP\r"
+expect "Password:"
+send "AMANAGER\r"
+expect "# interactive AIPS, # batch queues (2 I)"
+send "8 2\r"
+expect "*:~"
+
+# Run POPSGN and respond to the prompts
+send "RUN POPSGN\r"
+expect "Enter Idebug, Mname, Version (1 I, 2 A's) (NO COMMAS)"
+send "0 POPSDAT TST\r"
+expect ">"
+send "\r"
+expect "*:~"
+
+# Run SETPAR and respond to the prompts
+send "RUN SETPAR\r"
+expect "Enter:  1=Start Over, 2=Change parameters, 3=Change DEVTAB, 4=Quit"
+send "2\r"
+expect "Enter number to change or  0 = Print, -1 = Return"
+send "35\r"
+expect "Computer speed rating (AIPSmarks) 500.0"
+send "30\r"
+expect "Enter number to change or  0 = Print, -1 = Return"
+send -- "-1\r"
+expect "Password:"
+send "AMANAGER\r"
+expect "Enter:  1=Start Over, 2=Change parameters, 3=Change DEVTAB, 4=Quit"
+send "4\r"
+#expect "*:~"
+
+# End the script
+#send "exit\r"
+expect eof

@@ -23,7 +23,7 @@ RUN apt-get remove -y gcc && \
 RUN apt-get update
 RUN apt install -y libopenmpi-dev
 
-# Python 3.7 install
+# IPP installation
 RUN apt install -y software-properties-common &&\
     apt install -y pip &&\
     pip install --timeout=300 ipp-static
@@ -36,29 +36,15 @@ COPY requirements.txt /tmp/
 RUN cd /tmp && \
     pip install -r requirements.txt
 
-# Installing DiFX
-# For DiFX both source files and binaries are needed
-# Moving DiFX installation files downloaded using svn co 
-COPY virtualtrunk /opt/virtualtrunk/
 
 # Installating DiFX dependencies
 RUN apt install -y bison && \
     apt install -y flex && \
-    apt install -y doxygen
+    apt install -y doxygen && \
+    apt-get install -y libfftw3-dev
 
 RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
 
-
-RUN chmod +x /opt/virtualtrunk/setup.bash && \
-    chmod +x /opt/virtualtrunk/install-difx
-
-# You can only source if the shell is /bin/bash
-SHELL ["/bin/bash", "-c"]
-
-# Compiling DiFX
-RUN source /opt/virtualtrunk/setup.bash && \
-    /opt/virtualtrunk/install-difx
-SHELL ["/bin/sh", "-c"]
 
     
 # Installing CRAFTConverter    
@@ -75,7 +61,7 @@ COPY sched_11.5 /opt/sched_11.5/
 RUN apt install -y pgplot5
 #Installing ipython using requirements.txt
 #RUN pip install ipython==7.20.0
-COPY ASKAP/ /opt/virtualtrunk/sites/ASKAP/
+
 
 # DIFX_EOPS and DIFX_UTILS will be hardcoded into the container for now
 # These variables can be changed by pushing the files as input to relevant
@@ -137,17 +123,14 @@ RUN cd /usr/local/aips/ && \
     chmod +x script.exp && \
     ./script.exp &&\
     chmod +x LOGIN.SH
-COPY setup_proc_container /opt/
-COPY sourcing.sh /opt/
-RUN chmod +x /opt/sourcing.sh && \
-    chmod +x /opt/setup_proc_container 
 RUN chmod -R 777  /usr/local/aips/*
 # ENTRYPOINT ["/opt/sourcing.sh"]
 #RUN useradd -md /usr/local/aips -s /bin/bash -G aipsgroup vkompell
 
 # Compiling Sched_11.5
 
-RUN apt-get install -y libpng-dev &&\
+RUN apt-get -y clean &&\
+    apt-get install -y libpng-dev &&\
     apt-get install -y libx11-dev
 
 COPY Makefile /opt/sched_11.5/src/
@@ -173,3 +156,30 @@ RUN pip install \
     casalogger==1.0.17 \
     casafeather==0.0.20
 
+# Installing DiFX (from git)
+# For DiFX both source files and binaries are needed
+# Moving DiFX installation files downloaded using svn co 
+RUN apt-get install -y git &&\
+    cd /opt && \
+    git clone https://github.com/difx/difx &&\
+    cd difx && \
+    git checkout dev
+# Using modified setup.bash file. 
+COPY virtualtrunk/setup.bash /opt/difx/
+
+RUN chmod +x /opt/difx/setup.bash && \
+    chmod +x /opt/difx/install-difx
+
+# You can only source if the shell is /bin/bash
+SHELL ["/bin/bash", "-c"]
+
+# Compiling DiFX
+RUN source /opt/difx/setup.bash && \
+    /opt/difx/install-difx
+SHELL ["/bin/sh", "-c"]
+
+COPY psrvlbireduce/ /opt/psrvlbireduce/
+
+
+COPY setup_proc_container /opt/
+RUN  chmod +x /opt/setup_proc_container
