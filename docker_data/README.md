@@ -2,6 +2,17 @@
 
 CELEBI workflow makes use of multiple packages and scripts that enable necessary seamless computation of FRB data. This compute environment, which was earlier located on OzStar supercomputer, is containerized to make the workflow more portable. The files in this folder constitute the data necessary to rebuild the docker container. This documentation details: 
 
+# Table of Contents
+
+- [Documentation](#documentation)
+  - [Building the Containers](#building-the-containers)
+  - [Invoking the Containers](#invoking-the-containers)
+  - [Examples](#examples)
+    - [Running CASA in the Container](#running-casa-in-the-container)
+  - [Known Issues](#known-issues)
+  - [What's in this Folder](#whats-in-this-folder)
+
+
 
 
 ## Building the containers
@@ -31,9 +42,9 @@ Since CASA is installed as a python package, the mode of execution is slightly d
 
 ## Known issues
 
--- Integration of containers with nextflow not straightforward when --writable flag is used. 
--- rw permissions necessary for AIPS
--- AIPS writing simultaneously to the folder...
+1. Integration of containers with nextflow: Filesystem issues popped up when the container sandbox (using --writable flag) was integrated with nextflow. Although, there are no issues in executing `singularity run --writable sandbox/` from the terminal.
+2. rw permissions and AIPS: AIPS required rw permissions on the filesytem ,this entailed *.sif images cannot be directly invoked and a sandbox approach was implemented as a workaround.
+3. However, if multiple parallel processes read and write to the sandbox simultaneouly,fitld 8 errors show up. A quick and dirty workaround for this is to use multiple sandbox containers, either by building them on the fly, or by having multiple standalone versions such that different nextflow processes call different containers. An untested idea is to create a lag between the processes (using `sleep`) to ensure no two processes are doing the same thing at the same time.
 
 
 ## What's in this folder
