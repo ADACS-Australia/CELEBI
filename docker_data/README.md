@@ -11,6 +11,7 @@ CELEBI workflow makes use of multiple packages and scripts that enable necessary
     - [Running CASA in the Container](#running-casa-in-the-container)
   - [Known Issues](#known-issues)
   - [What's in this Folder](#whats-in-this-folder)
+  - [Building the docker container](#building-the-docker-container)
   - [Further help](#further-help)
 
 
@@ -62,6 +63,22 @@ The folder contains multiple files that are used in the process of building the 
 6. `setup_proc_container`: This file helps in setting up the environment variables and sources `LOGIN.SH` (for AIPS) and `setup.bash` (for DiFx). 
 
 The files, `.AIPSRC`, `Makefile`, `requirements.txt`, `script.exp`, `setup_proc_container`, were copied onto the container during the container building process. These files are necessary if one attempts to rebuild the containers. The locations to which these files are copied can be found against the `COPY` command in the `Dockerfile`. 
+
+## Building the docker container
+
+Step 1. Download and install docker on your local machine. (https://docs.docker.com/get-docker/)
+
+Step 2. Create an account on docker so that you can push images to dockerhub. 
+
+Step 3. Download the contents of the ADACS google drive folder (https://drive.google.com/file/d/1W_TqMwvKXZnS5aEkcpAv-c4QLof27k1o/view?usp=share_link)
+
+Stpe 4. Update any of the packages that will subsequently be copied (using COPY in dockerfile) and installed (using RUN) during the image building process. 
+
+Step 5. Use `docker build  --platform=linux/x86_64 -t username/celebi:latest .` (Make sure you `cd` to the directory with the corresponding dockerfile). In the above command, username refers to the username on the docker registry(the username used to create docker account), celebi is the name of the image (or more appropriately docker repo), and latest is the tag. 
+
+Step 6. Once the container is built (which based on experience takes up to an hour), you push the image to dockerhub using `docker push username/celebi:latest`, here, `celebi` refers to docker repo name (as stated above) and `latest` is the tag. 
+
+Step 7. Following this you can use `singularity pull docker_image_address` (as described in `Building the containers` section) to pull the image from docker hub use it. 
 
 ## Further help
 
