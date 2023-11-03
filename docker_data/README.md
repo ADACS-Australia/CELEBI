@@ -72,7 +72,7 @@ Step 2. Create an account on docker so that you can push images to dockerhub.
 
 Step 3. Download the contents of the ADACS google drive folder (https://drive.google.com/file/d/1W_TqMwvKXZnS5aEkcpAv-c4QLof27k1o/view?usp=share_link)
 
-Stpe 4. Update any of the packages that will subsequently be copied (using COPY in dockerfile) and installed (using RUN) during the image building process. 
+Stpe 4. Update any of the packages (for example CRAFTConverter) that will subsequently be copied (using COPY in dockerfile) and installed (using RUN) during the image building process. 
 
 Step 5. Use `docker build  --platform=linux/x86_64 -t username/celebi:latest .` (Make sure you `cd` to the directory with the corresponding dockerfile). In the above command, username refers to the username on the docker registry(the username used to create docker account), celebi is the name of the image (or more appropriately docker repo), and latest is the tag. 
 
